@@ -1,13 +1,37 @@
 # require modules here
+require "yaml"
+require 'pp'
 
-def load_library
-  # code goes here
+def load_library(file_path)
+  i=0;
+  file = File.read(file_path)
+  emoticons = YAML.load(file)
+  library = {"get_meaning": {}, "get_emoticon": {}}
+  emoticons.each do |emotion, emoticon|  eng, jap = emoticon
+     library[:get_meaning][jap] = emotion
+     library[:get_emoticon][eng] = jap 
+    
+ end
+library
 end
 
-def get_japanese_emoticon
-  # code goes here
+def get_japanese_emoticon(file_path, emoticon)
+library = load_library(file_path) 
+  if library[:get_emoticon][emoticon] == nil
+  return "Sorry, that emoticon was not found"
+  else 
+  jap_emote= library[:get_emoticon][emoticon]
+  jap_emote
+  end
 end
 
-def get_english_meaning
-  # code goes here
+def get_english_meaning(file_path, emoticon)
+library = load_library(file_path)
+  if library[:get_meaning][emoticon] == nil
+  return "Sorry, that emoticon was not found"
+  else 
+  emote= library[:get_meaning][emoticon]
+  emote
+  end
+  
 end
